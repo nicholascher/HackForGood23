@@ -1,8 +1,7 @@
 ﻿using Interfaces.Account;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Collections.Generic;
+using Common;
 
 namespace WebApi.Misc;
 

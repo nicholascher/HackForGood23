@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interfaces", "Interfaces\In
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{A59E3CEA-C895-4AD9-AD4F-D0E2E3BE4BC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Firebase", "Common.Firebase\Common.Firebase.csproj", "{0CFC6FD6-D1C1-4364-A0F3-D131E1732A82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Firebase", "Common.Firebase\Common.Firebase.csproj", "{0CFC6FD6-D1C1-4364-A0F3-D131E1732A82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventManager", "EventManager\EventManager.csproj", "{A828807E-3860-4859-92AC-3DD67C70EB84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{0CFC6FD6-D1C1-4364-A0F3-D131E1732A82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CFC6FD6-D1C1-4364-A0F3-D131E1732A82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CFC6FD6-D1C1-4364-A0F3-D131E1732A82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A828807E-3860-4859-92AC-3DD67C70EB84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A828807E-3860-4859-92AC-3DD67C70EB84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A828807E-3860-4859-92AC-3DD67C70EB84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A828807E-3860-4859-92AC-3DD67C70EB84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

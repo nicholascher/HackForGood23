@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Misc;
 using WebApi.Models;
-using User = WebApi.Models.User;
+using UserResponse = WebApi.Models.UserResponse;
 
 namespace WebApi.Controllers
 {
@@ -46,15 +46,17 @@ namespace WebApi.Controllers
             return Ok(new { message = "Registration successful" });
         }
 
-        [ProducesResponseType(typeof(Collection<User>), StatusCodes.Status200OK)]
+        [Authorize(AccessLevel.ADMIN)]
+        [ProducesResponseType(typeof(Collection<UserResponse>), StatusCodes.Status200OK)]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var users = await _accountService.GetAllUsers();
-            return Ok(new Collection<User>(users.Select(x => new User(x))));
+            return Ok(new Collection<UserResponse>(users.Select(x => new UserResponse(x))));
         }
 
-        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        [Authorize(AccessLevel.USER)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(string id)
         {
@@ -65,7 +67,7 @@ namespace WebApi.Controllers
                 return BadRequest(user.ErrorMessage);
             }
 
-            return Ok(new User(user.Value ?? throw new InvalidOperationException("Should not be null")));
+            return Ok(new UserResponse(user.Value ?? throw new InvalidOperationException("Should not be null")));
         }
 
     }

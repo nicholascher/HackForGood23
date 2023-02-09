@@ -9,7 +9,7 @@ public class AuthenticateRequest : IAuthenticateRequest
 #pragma warning restore CS8618
 
     [Required]
-    public string UserName { get; set; }
+    public string Email { get; set; }
 
     [Required]
     public string Password { get; set; }

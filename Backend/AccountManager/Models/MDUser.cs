@@ -1,8 +1,9 @@
-﻿using Interfaces.Account;
-using LiteDB;
+﻿using Google.Cloud.Firestore;
+using Interfaces.Account;
 
 namespace AccountManager.Models;
 
+[FirestoreData]
 public class MDUser : IUser
 {
     /// <summary>
@@ -16,7 +17,6 @@ public class MDUser : IUser
     {
         AccessLevel = user.AccessLevel;
         Id = user.Id;
-        UserName = user.UserName;
         FirstName = user.FirstName;
         LastName = user.LastName;
         Email = user.Email;
@@ -30,8 +30,7 @@ public class MDUser : IUser
     private MDUser(AccessLevel level, IRegisterRequest request, DateTime createdAt, string passwordHash)
     {
         AccessLevel = level;
-        Id = ObjectId.NewObjectId().ToString();
-        UserName = request.Username;
+        Id = 
         FirstName = request.FirstName;
         LastName = request.LastName;
         Email = request.Email;
@@ -40,16 +39,25 @@ public class MDUser : IUser
         PasswordHash = passwordHash;
     }
 
-    public AccessLevel AccessLevel { get; set; }
+    [FirestoreDocumentId]
     public string Id { get; set; }
-    public string UserName { get; set; }
+    [FirestoreProperty]
+    public AccessLevel AccessLevel { get; set; }
+    [FirestoreProperty]
     public string FirstName { get; set; }
+    [FirestoreProperty]
     public string LastName { get; set; }
+    [FirestoreProperty]
     public string Email { get; set; }
+    [FirestoreProperty]
     public string PasswordHash { get; set; }
+    [FirestoreProperty]
     public string? Token { get; set; }
+    [FirestoreProperty]
     public DateTime CreatedAt { get; set; }
+    [FirestoreProperty]
     public DateTime UpdatedAt { get; set; }
+    [FirestoreProperty]
     public bool IsEmailConfirmed { get; set; }
 
     public static MDUser CreateUser(AccessLevel level, IRegisterRequest request, DateTime now)

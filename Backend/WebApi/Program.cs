@@ -1,8 +1,11 @@
 using AccountManager;
 using Common;
+using Common.Firebase;
 using FirebaseAdmin;
 using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Firestore;
+using Google.Cloud.Firestore.V1;
 using Interfaces.Account;
 using Interfaces.Authentication;
 using Interfaces.FireBase;
@@ -10,6 +13,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using WebApi;
 using WebApi.Misc;
+using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,14 +28,17 @@ builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSet
 builder.Services.AddScoped<IJwtUtils, JwtUtils>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 
-;
-
 builder.Services.AddSingleton(LoggerFactory.Create(loggingBuilder =>
 {
     loggingBuilder.AddConsole()
         .AddDebug()
+        .AddEventLog()
         .SetMinimumLevel(LogLevel.Debug);
 }));
+
+// ReSharper disable once StringLiteralTypo
+var credentialPath = Directory.GetCurrentDirectory() + "\\firebaseConfig.json";
+Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", credentialPath);
 
 FirebaseApp.Create(new AppOptions()
 {
@@ -41,7 +48,8 @@ FirebaseApp.Create(new AppOptions()
 builder.Services.AddSingleton<IConnectionString>(
     new ConnectionString(
         builder.Configuration.GetSection("ConnectionString").GetSection("apiKey").Value, 
-    builder.Configuration.GetSection("ConnectionString").GetSection("authDomain").Value));
+    builder.Configuration.GetSection("ConnectionString").GetSection("authDomain").Value,
+        builder.Configuration.GetSection("ConnectionString").GetSection("projectId").Value));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddScheme<AuthenticationSchemeOptions, FirebaseAuthHandler>(JwtBearerDefaults.AuthenticationScheme, (o) => { });

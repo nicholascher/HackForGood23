@@ -1,6 +1,7 @@
 ﻿using AccountManager.Models;
 using Common;
 using Common.Firebase;
+using Google.Cloud.Firestore;
 using Interfaces.Account;
 using Interfaces.Authentication;
 using Interfaces.FireBase;
@@ -25,7 +26,7 @@ namespace AccountManager
 
         public async Task<TryResult<IUser>> TryFindUser(string id)
         {
-            var user = await Users.FindOne(id);
+            var user = await Users.FindOne(new[] { new FirebaseQueryString(FieldPath.DocumentId, FilterMethod.EQUAL, id) });
 
             return user != null
                 ? TryResult<IUser>.Pass(user)
@@ -34,7 +35,7 @@ namespace AccountManager
 
         public async Task<TryResult<IAuthenticateResponse>> TryAuthenticate(IAuthenticateRequest model)
         {
-            var user = await TryGetUserByUserName(model.UserName);
+            var user = await TryGetUserByEmail(model.Email);
             if (user.Failure)
             {
                 return TryResult<IAuthenticateResponse>.Fail(user);
@@ -52,8 +53,11 @@ namespace AccountManager
             var now = DateTime.UtcNow;
 
             // save the token and user
-            var result = await Users.Update(user.Value.Id, new MDUser(user.Value) { Token = jwtToken, UpdatedAt = now });
-            if (result.Object == null)
+            var result = await Users.UpdateOne(
+                new[] { new FirebaseQueryString(FieldPath.DocumentId, FilterMethod.EQUAL, user.Value.Id) },
+                new MDUser(user.Value) { Token = jwtToken, UpdatedAt = now });
+            
+            if (result == null)
             {
                 throw new AppException("Error while updating user token");
             }
@@ -67,16 +71,9 @@ namespace AccountManager
 
             var now = DateTime.UtcNow;
 
-            // Check if username is taken
-            var userNameTaken = await TryGetUserByUserName(request.Username);
+            // Check if email is taken
+            var userNameTaken = await TryGetUserByEmail(request.Email);
             if (userNameTaken.Success)
-            {
-                return TryResult.Fail($"There already exists UserName {request.Username}");
-            }
-
-            // Check if email is used
-            var emailTaken = await TryGetUserByEmail(request.Email);
-            if (emailTaken.Success)
             {
                 return TryResult.Fail($"There already exists Email {request.Email}");
             }
@@ -87,30 +84,19 @@ namespace AccountManager
             var result = await Users.Insert(newUser);
 
             // Return true only if there is an object returned from the db storing process
-            return result.Object != null
+            return result != null
                 ? TryResult.Pass()
                 : TryResult.Fail("Not able to create user");
         }
 
         public async Task<IEnumerable<IUser>> GetAllUsers()
         {
-            var results = await Users.GetAll();
-
-            return results.Select(x => x.Object);
-        }
-
-        private async Task<TryResult<IUser>> TryGetUserByUserName(string userName)
-        {
-            var result = await Users.FindOne(userName);
-
-            return result != null
-                ? TryResult<IUser>.Pass(result)
-                : TryResult<IUser>.Fail($"Not able to find user with UserName {userName}");
+            return await Users.GetAll();
         }
 
         private async Task<TryResult<IUser>> TryGetUserByEmail(string email)
         {
-            var result = await Users.FindOne(email);
+            var result = await Users.FindOne(new[] { new FirebaseQueryString(nameof(MDUser.Email), FilterMethod.EQUAL, email) });
 
             return result != null
                 ? TryResult<IUser>.Pass(result)
@@ -124,7 +110,6 @@ namespace AccountManager
                 Id = user.Id;
                 FirstName = user.FirstName;
                 LastName = user.LastName;
-                Username = user.UserName;
                 Role = user.AccessLevel;
                 Token = token;
             }
@@ -132,7 +117,6 @@ namespace AccountManager
             public string Id { get; }
             public string FirstName { get; }
             public string LastName { get; }
-            public string Username { get; }
             public AccessLevel Role { get; }
             public string Token { get; }
         }

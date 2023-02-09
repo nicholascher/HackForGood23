@@ -1,5 +1,7 @@
 ﻿using Interfaces.Account;
 using Interfaces.Authentication;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace WebApi.Models;
 
@@ -12,7 +14,6 @@ public class AuthenticateResponse : IAuthenticateResponse
         Id = response.Id;
         FirstName = response.FirstName;
         LastName = response.LastName;
-        Username = response.Username;
         Role = response.Role;
         Token = response.Token;
     }
@@ -20,7 +21,8 @@ public class AuthenticateResponse : IAuthenticateResponse
     public string Id { get; }
     public string FirstName { get; }
     public string LastName { get; }
-    public string Username { get; }
+
+    [JsonConverter(typeof(StringEnumConverter))]
     public AccessLevel Role { get; }
     public string Token { get; }
 }
