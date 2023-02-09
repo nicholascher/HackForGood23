@@ -2,15 +2,15 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { Button, Row, Col } from 'antd';
 import {
-    signup,
+    loginPath,
 } from '../../urlConfig/pathURL.js';
 
 
 const NavLoginBar = () => {
     const navigate = useNavigate();
 
-    const navigateToSignUp = (e) => {
-        navigate(signup);
+    const navigateToLogin = (e) => {
+        navigate(loginPath);
     };
     const navigateToHome = (e) => {
         navigate('/');
@@ -40,8 +40,8 @@ const NavLoginBar = () => {
                     </Button>
                 </Col>
                 <Col span={3}>
-                    <Button type="text" style={buttonStyle} onClick={navigateToSignUp} >
-                        SIGN UP
+                    <Button type="text" style={buttonStyle} onClick={navigateToLogin} >
+                        LOGIN
                     </Button>
                 </Col>
             </Row>

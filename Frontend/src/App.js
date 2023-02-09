@@ -7,10 +7,12 @@ import {
     basePath,
     loginPath,
     knowmore,
-    getintouch
+    getintouch,
+    signup
     // mainPath,
 } from './urlConfig/pathURL.js';
 import GetInTouch from './pages/GetInTouchPage';
+import SignUpPage from './pages/SignUpPage';
 
 function App() {
     return (
@@ -22,6 +24,7 @@ function App() {
                     <Route exact path={loginPath} element={<LoginPage />} />
                     <Route exact path={knowmore} element={<KnowMore />} />
                     <Route exact path={getintouch} element={<GetInTouch />} />
+                    <Route exact path={signup} element ={<SignUpPage/>} />
                 </Routes>
             </Router>
         </>
