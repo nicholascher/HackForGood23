@@ -9,5 +9,7 @@ namespace Interfaces.Account
         Task<TryResult<IAuthenticateResponse>> TryAuthenticate(IAuthenticateRequest model);
         Task<TryResult> TryRegister(AccessLevel level, IRegisterRequest request);
         Task<IEnumerable<IUser>> GetAllUsers();
+        Task<TryResult> Logout(string id);
+        Task<TryResult> DeleteUser(string id);
     }
 }

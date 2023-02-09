@@ -60,12 +60,11 @@ public class MDUser : IUser
     [FirestoreProperty]
     public bool IsEmailConfirmed { get; set; }
 
-    public static MDUser CreateUser(AccessLevel level, IRegisterRequest request, DateTime now)
+    public static MDUser CreateUser(AccessLevel level, IRegisterRequest request, string encryptedPassword, DateTime now)
     {
         if (request == null) throw new ArgumentNullException(nameof(request));
+        if (encryptedPassword == null) throw new ArgumentNullException(nameof(encryptedPassword));
 
-        var password = BCrypt.Net.BCrypt.HashPassword(request.Password);
-
-        return new MDUser(level, request, now, password);
+        return new MDUser(level, request, now, encryptedPassword);
     }
 }

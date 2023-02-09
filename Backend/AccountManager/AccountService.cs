@@ -26,11 +26,7 @@ namespace AccountManager
 
         public async Task<TryResult<IUser>> TryFindUser(string id)
         {
-            var user = await Users.FindOne(new[] { new FirebaseQueryString(FieldPath.DocumentId, FilterMethod.EQUAL, id) });
-
-            return user != null
-                ? TryResult<IUser>.Pass(user)
-                : TryResult<IUser>.Fail($"Not able to find user with id '{id}'");
+            return await TryGetUser(id);
         }
 
         public async Task<TryResult<IAuthenticateResponse>> TryAuthenticate(IAuthenticateRequest model)
@@ -78,8 +74,11 @@ namespace AccountManager
                 return TryResult.Fail($"There already exists Email {request.Email}");
             }
 
+            // Encrypt password to store
+            var password = BCrypt.Net.BCrypt.HashPassword(request.Password);
+
             // Create a new user
-            var newUser = MDUser.CreateUser(level, request, now);
+            var newUser = MDUser.CreateUser(level, request, password, now);
 
             var result = await Users.Insert(newUser);
 
@@ -92,6 +91,46 @@ namespace AccountManager
         public async Task<IEnumerable<IUser>> GetAllUsers()
         {
             return await Users.GetAll();
+        }
+
+        public async Task<TryResult> Logout(string id)
+        {
+            if (id == null) throw new ArgumentNullException(nameof(id));
+
+            var user = await TryGetUser(id);
+            if (user.Failure)
+            {
+                return TryResult.Fail(user);
+            }
+
+            var updatedUser = new MDUser(user.Value)
+            {
+                Token = null,
+                UpdatedAt = DateTime.UtcNow
+            };
+
+            await Users.UpdateOne(new[] { new FirebaseQueryString(FieldPath.DocumentId, FilterMethod.EQUAL, id) }, updatedUser);
+
+            return TryResult.Pass();
+        }
+
+        public async Task<TryResult> DeleteUser(string id)
+        {
+            if (id == null) throw new ArgumentNullException(nameof(id));
+
+            var result = await Users.Delete(new[] { new FirebaseQueryString(FieldPath.DocumentId, FilterMethod.EQUAL, id) });
+
+            return result.Success
+                ? TryResult.Pass()
+                : TryResult.Fail(result);
+        }
+        private async Task<TryResult<IUser>> TryGetUser(string id)
+        {
+            var result = await Users.FindOne(new[] { new FirebaseQueryString(FieldPath.DocumentId, FilterMethod.EQUAL, id) });
+
+            return result != null
+                ? TryResult<IUser>.Pass(result)
+                : TryResult<IUser>.Fail($"Not able to find user with id {id}");
         }
 
         private async Task<TryResult<IUser>> TryGetUserByEmail(string email)

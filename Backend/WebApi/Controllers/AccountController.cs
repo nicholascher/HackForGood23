@@ -1,5 +1,7 @@
 ﻿using Interfaces.Account;
+using Interfaces.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using WebApi.Misc;
 using WebApi.Models;
 using UserResponse = WebApi.Models.UserResponse;
@@ -11,10 +13,12 @@ namespace WebApi.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+        private readonly IJwtUtils _jwtUtils;
         private readonly IAccountService _accountService;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IJwtUtils jwtUtils, IAccountService accountService)
         {
+            _jwtUtils = jwtUtils ?? throw new ArgumentNullException(nameof(jwtUtils));
             _accountService = accountService ?? throw new ArgumentNullException(nameof(accountService));
         }
 
@@ -68,6 +72,27 @@ namespace WebApi.Controllers
             }
 
             return Ok(new UserResponse(user.Value ?? throw new InvalidOperationException("Should not be null")));
+        }
+
+        [Authorize(AccessLevel.USER)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+        [HttpGet("logout")]
+        public async Task<IActionResult> Logout(string token)
+        {
+            var userId = _jwtUtils.ValidateJwtToken(token);
+            if (userId == null)
+            {
+                return BadRequest("Token is not valid");
+            }
+
+            var result= await _accountService.Logout(userId);
+
+            if (result.Failure)
+            {
+                return BadRequest(result.ErrorMessage);
+            }
+
+            return Ok("Logged out");
         }
 
     }
