@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+.App {
+    padding: 20px;
+    font-family: 'Playfair Display', serif;
+}
+
+.main {
+    font-family: 'Playfair Display', serif;
+};
+
+body {
+    font-family: 'Playfair Display', serif;
+}
+
+.site-layout-content {
+    min-height: 280px;
+    padding: 24px;
+    font-family: 'Playfair Display',serif;
+}
+
+.layout {
+    font-family: 'Playfair Display',serif;
+}
+
+.logo {
+    float: left;
+    width: 120px;
+    height: 31px;
+    margin: 16px 24px 16px 0;
+    background: rgba(255, 255, 255, 0.3);
+    font-family: 'Playfair Display',serif;
+}
+
+.ant-row-rtl #components-layout-demo-top .logo {
+    float: right;
+    margin: 16px 0 16px 24px;
+}
