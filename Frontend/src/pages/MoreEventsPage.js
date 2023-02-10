@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Layout, Typography, Card, Row, Col, Button, Pagination } from 'antd';
+import { Layout, Typography, Card, Row, Col, Button, Pagination, Cascader } from 'antd';
 import blueglasscube from '../assets/bgphotos/blueglasscube.jpg';
 import { useNavigate } from 'react-router-dom';
 import { moreevents } from '../urlConfig/pathURL';
@@ -9,10 +9,34 @@ import axios from 'axios';
 import NavEventBar from '../components/navcomponents/NavEventBar';
 import Cookies from 'universal-cookie';
 
+  
 const {Title} = Typography;
 const MoreEventsPage = () => {
     const cookies = new Cookies();
     let eventIndice = {}
+
+    const categories = [
+        {
+          code: 'NONE',
+          name: 'NONE',
+        },
+        {
+          code: 'DEVELOPMENT',
+          name: 'DEVELOPMENT',
+        },
+        {
+          code: 'ARTIFICIAL_INTELLIGENCE',
+          name: 'ARTIFICIAL INTELLIGENCE',
+        },
+        {
+          code: 'WEB_BUILDING',
+          name: 'WEB BUILDING',
+        },
+        {
+          code: 'MANUFACTURING',
+          name: 'MANUFACTURING',
+        },
+    ]
     
     const [availableEvents, setEvents] = useState([]);
     const [currentEvents, setCurrent] = useState([]);
@@ -82,10 +106,28 @@ const MoreEventsPage = () => {
         setCurrent(eventIndice[pg-1]);
     }
 
+    const chooseCategory = (cat) => {
+        var jwtToken = window.token;
+        axios.get(window.apiUrl + "/Event/category", 
+        {
+            ategory: cat[0],
+            headers: {
+            Authorization: "Bearer " + jwtToken
+            },
+        })
+        .then((response) => {
+            setEvents(response.data.values);
+            spliceEvents(response.data.values);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
     const renderEventCard = (data) => {
         return(
-            <Col push={4} span={6}>
-                <Card style={{ background: 'rgba(48, 28, 88, 0.7)', height: 350, color: '#FFCFBE', textAlign: 'center' }} bordered={false}>
+            <Col span={6}>
+                <Card style={{ background: 'rgba(48, 28, 88, 0.9)', height: 350, color: '#FFCFBE', textAlign: 'center' }} bordered={false}>
                     <Title level={3} style={{ fontsize: '10px', fontWeight: 'bold', margin: 10, fontFamily: 'Playfair Display', color: '#FFCFBE', padding: 20 }}>
                         {data.name}
                     </Title>
@@ -112,14 +154,19 @@ const MoreEventsPage = () => {
                             </Typography.Title>
                         </Col>
                     </Row>
-                    <Row gutter={16} style={{ marginTop: '50px', margin: '50px' }}>
+                    {/*<Row>
+                        <Cascader fieldNames={{ label: 'name', value: 'code'}} options={categories} onChange={(cat) => chooseCategory(cat)} placeholder={"NONE"}>
+
+                        </Cascader>
+    </Row>*/}
+                    <Row gutter={16} style={{ marginTop: '50px', margin: '50px', justifyContent: 'center' }}>
                         {availableEvents.length > 0 && currentEvents.length > 0
                         ? currentEvents.map((data, num) => {
                             return(renderEventCard(data))
                         })
                         : 
-                        <Col push={4} span={16}>
-                            <Card style={{ background: 'rgba(48, 28, 88, 0.7)', height: 350, color: '#FFCFBE', textAlign: 'center' }} bordered={false}>
+                        <Col span={16}>
+                            <Card style={{ background: 'rgba(48, 28, 88, 0.9)', height: 350, color: '#FFCFBE', textAlign: 'center' }} bordered={false}>
                                 <Title level={3} style={{ fontsize: '10px', fontWeight: 'bold', margin: 10, fontFamily: 'Playfair Display', color: '#FFCFBE', padding: 20 }}>
                                     No event available, check back again soon!
                                 </Title>

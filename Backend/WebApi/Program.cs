@@ -1,4 +1,5 @@
 using AccountManager;
+using AnalyticManager;
 using Common;
 using Common.Firebase;
 using EventManager;
@@ -8,6 +9,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
 using Google.Cloud.Firestore.V1;
 using Interfaces.Account;
+using Interfaces.Analytic;
 using Interfaces.Authentication;
 using Interfaces.Event;
 using Interfaces.FireBase;
@@ -30,6 +32,7 @@ builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSet
 builder.Services.AddScoped<IJwtUtils, JwtUtils>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IAnalyticService, AnalyticService>();
 
 builder.Services.AddSingleton(LoggerFactory.Create(loggingBuilder =>
 {

@@ -52,6 +52,16 @@ public class EventController : ControllerBase
         return Ok(new EventResponse(eventResult.Value));
     }
 
+    [Authorize(AccessLevel.USER, AccessLevel.ORGANISER, AccessLevel.ADMIN)]
+    [ProducesResponseType(typeof(Collection<EventResponse>), StatusCodes.Status200OK)]
+    [HttpGet("category")]
+    public async Task<IActionResult> GetEventCat(EventCatRequest request)
+    {
+        var eventResult = await _eventService.GetEventByCategory(request.Category);
+
+        return Ok(new Collection<EventResponse>(eventResult.Select(x => new EventResponse(x))));
+    }
+
     [Authorize(AccessLevel.ORGANISER, AccessLevel.ADMIN)]
     [ProducesResponseType(typeof(EventResponse), StatusCodes.Status200OK)]
     [HttpPost("create")]
