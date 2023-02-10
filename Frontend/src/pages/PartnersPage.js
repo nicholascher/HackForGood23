@@ -41,7 +41,7 @@ const Partners = () => {
 
     const backgroundImageSettings = {
         background: `url(${futurecity})`,
-        height: '90vh',
+        height: '70vh',
         backgroun1Position: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
@@ -63,13 +63,15 @@ const Partners = () => {
                         <Carousel
                             responsive={responsive}
                             showDots={true}
+                            autoPlay={true}
+                            autoPlaySpeed={1000}
                         >
                             {PartnersComponents}
                         </Carousel>
                     </Layout>
-                    <Row gutter={24} style={{ justifyContent: 'center' }}>
-                        <Button style={{ marginBottom: '50px', width: '20%',color: '#301C58', background: '#FFCFBE', fontWeight:'bolder'}}>FIND OUT MORE</Button>
-                    </Row>
+                    {/* <Row gutter={24} style={{ justifyContent: 'center' }}>
+                        <Button style={{ margin: 40, fontFamily: 'Playfair Display', background: '#FFCFBE', fontWeight: 'bolder', color: '#301C58', fontSize: '30px', height: '60px', width: '20%'}}>FIND OUT MORE</Button>
+                    </Row> */}
                 </Layout>
             </div>
         </>

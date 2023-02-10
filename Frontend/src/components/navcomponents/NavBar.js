@@ -5,6 +5,7 @@ import { NContainer, Navigation, NMenu, NItems, Hamburger, NLinks } from './NCon
 import { Logo } from './Logo';
 import { Button } from 'antd';
 import {
+    getintouch,
     loginPath,
 } from '../../urlConfig/pathURL.js';
 import { Link } from 'react-scroll';
@@ -25,6 +26,10 @@ const NavBar = ({ toggle }) => {
         navigate(loginPath);
     };
 
+    const navigateToContact = (e) => {
+        navigate(getintouch);
+    };
+
     const buttonStyle = {
         textAlign: 'center',
         fontFamily: 'Playfair Display',
@@ -36,7 +41,9 @@ const NavBar = ({ toggle }) => {
     };
 
     const navStyle = {
-        color : 'white'
+        color : 'white',
+        fontFamily: 'Playfair Display',
+        fontSize: '1rem',
     }
     return (
         <>
@@ -66,7 +73,13 @@ const NavBar = ({ toggle }) => {
                         </NItems>
                         <NItems>
                             <NLinks>
-                                < Link style={navStyle} to='contact' spy={true} smooth={true} offset={-100} duration={500} >Get In Touch</Link>
+                                < Link style={navStyle} to='events' spy={true} smooth={true} offset={-100} duration={500} >Events</Link>
+                            </NLinks>
+                        </NItems>
+                        <NItems>
+                            <NLinks>
+                                < Link style={navStyle} to='getintouch' spy={true} smooth={true} offset={-100} duration={500} >Get In Touch</Link>
+                                {/* <Button type="text" style={navStyle} onClick={navigateToContact}>Get In Touch</Button> */}
                             </NLinks>
                         </NItems>
                     </NMenu>

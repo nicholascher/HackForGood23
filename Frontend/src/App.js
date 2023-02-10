@@ -8,13 +8,18 @@ import {
     loginPath,
     knowmore,
     getintouch,
-    signup
+    signup,
+    eventspage,
+    moreevents
     // mainPath,
 } from './urlConfig/pathURL.js';
 import GetInTouch from './pages/GetInTouchPage';
 import SignUpPage from './pages/SignUpPage';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
+import EventsPage from './pages/EventsPage';
+import MoreEventsPage from './pages/MoreEventsPage';
+import ContactsForm from './pages/ContactsForm';
 
 window.apiUrl = "http://localhost:5233";
 
@@ -24,7 +29,7 @@ function App() {
     window.addEventListener("beforeunload", (ev) => {
         var logout = localStorage.getItem("autoLogout");
         var jwtToken = cookies.get('token');
-        if (logout == "n"){
+        if (logout === "n"){
             axios.post(window.apiUrl + "/logout", {
                 headers: {
                 Authorization: "Bearer " + jwtToken
@@ -45,10 +50,12 @@ function App() {
                 <Routes>
                     <Route exact path={`${basePath}*`} element={<MainPage />} />
                     {/* <Route path={`${mainPath}*`} component={MainPage} /> */}
+                    <Route exact path={eventspage} element={<EventsPage />} />
                     <Route exact path={loginPath} element={<LoginPage />} />
                     <Route exact path={knowmore} element={<KnowMore />} />
-                    <Route exact path={getintouch} element={<GetInTouch />} />
+                    <Route exact path={getintouch} element={<ContactsForm />} />
                     <Route exact path={signup} element ={<SignUpPage/>} />
+                    <Route exact path={moreevents} element ={<MoreEventsPage/>} />
                 </Routes>
             </Router>
         </>
