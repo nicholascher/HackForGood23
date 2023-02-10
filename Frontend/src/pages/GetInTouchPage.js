@@ -1,44 +1,43 @@
 import React from 'react';
 import styles from "../index.css";
-import { Route, Routes } from 'react-router-dom';
-import { NaviBar } from '../components/NaviBar';
-import {
-    loginPath
-} from '../urlConfig/pathURL';
-import LoginPage from './LoginPage';
-import { Col, Row, Card } from 'antd';
-import useWindowDimensions from '../utilities/windowDimensions';
+import { Col, Row, Card, Button } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { getintouch } from '../urlConfig/pathURL';
 import "@fontsource/playfair-display"
 import { Typography } from 'antd';
+import join from '../assets/bgphotos/joinus.jpg';
+
 
 const GetInTouch = () => {
-    const { height } = useWindowDimensions();
+    const navigate = useNavigate();
 
+    const navigateToContact = (e) => {
+        navigate(getintouch);
+    };
     const cardStyle = {
         textAlign: 'center',
-        minHeight: height,
+        minHeight: '400px',
         lineHeight: '120px',
         fontFamily: 'Playfair Display',
+        background: `url(${join})`,
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
     };
 
     return (
         <>
-            <div className={styles.main}>
-                <NaviBar currentState = 'getintouch'/>
-                <Routes>
-                    <Route exact path={loginPath} element={<LoginPage />} />
-                </Routes>
+            <div className={styles.main} id='getintouch'>
                 <Row style={cardStyle} gutter={16}>
                     <Col span={24}>
-                        <Card style={cardStyle} >
-                            <Typography.Title level={1} style={{ margin: 0, fontFamily: 'Playfair Display' }}>
-                                WHO WE ARE
+                        <Card style={cardStyle} bordered={false}>
+                            <Typography.Title level={1} style={{ margin: 40, fontFamily: 'Playfair Display', color: '#FFCFBE' }}>
+                                INTERESTED TO JOIN THE ALLIANCE?
                             </Typography.Title>
-                            <Typography.Paragraph style={{ margin: 0, fontFamily: 'Playfair Display' }}>
-                                Unicorns for Good Alliance is a global platform on a mission to educate, empower, and enhance a new generation of conscious leaders to apply technology for greater good.
-                                This is where the world’s best technologists, entrepreneurs, and investors unite to turn large global challenges into growth opportunities and solve the biggest challenges of our time.
-                                This is where future Tech-for-Good Unicorns are born. 
-                                </Typography.Paragraph>
+                            <Button
+                            onClick={navigateToContact}  
+                            style={{ margin: 40, fontFamily: 'Playfair Display', background: '#FFCFBE', fontWeight:'bolder', color:'#301C58', fontSize:'30px', height:'60px' }}>
+                                Click Here to Join!</Button>
                         </Card>
                     </Col>
                 </Row>

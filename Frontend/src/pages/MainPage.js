@@ -5,6 +5,8 @@ import WhoWeAre from './WhoWeAre';
 import NavBar from '../components/navcomponents/NavBar';
 import Partners from './PartnersPage';
 import WhatWeDo from './WhatWeDo';
+import EventsPage from './EventsPage';
+import GetInTouch from './GetInTouchPage';
 const { Header } = Layout;
 const MainPage = () => {
 
@@ -23,6 +25,8 @@ const MainPage = () => {
                     <KnowMore />
                     <WhatWeDo />
                     <Partners />
+                    <EventsPage/>
+                    <GetInTouch/>
                     </div>
                 </Layout>
             </div>

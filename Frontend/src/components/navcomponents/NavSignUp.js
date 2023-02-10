@@ -6,7 +6,7 @@ import {
 } from '../../urlConfig/pathURL.js';
 
 
-const NavLoginBar = () => {
+const NavSignUp = () => {
     const navigate = useNavigate();
 
     const navigateToLogin = (e) => {
@@ -51,5 +51,5 @@ const NavLoginBar = () => {
     )
 }
 
-export default NavLoginBar;
+export default NavSignUp;
 
