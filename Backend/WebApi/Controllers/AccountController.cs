@@ -76,6 +76,21 @@ namespace WebApi.Controllers
 
         [Authorize(AccessLevel.USER)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+        [HttpGet("{token}")]
+        public async Task<IActionResult> GetUserByToken(string token)
+        {
+            var user = await _accountService.TryFindUserByToken(token);
+
+            if (user.Failure)
+            {
+                return BadRequest(user.ErrorMessage);
+            }
+
+            return Ok(new UserResponse(user.Value ?? throw new InvalidOperationException("Should not be null")));
+        }
+
+        [Authorize(AccessLevel.USER)]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
         [HttpGet("logout")]
         public async Task<IActionResult> Logout(string token)
         {

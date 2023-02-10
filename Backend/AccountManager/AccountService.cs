@@ -29,6 +29,18 @@ namespace AccountManager
             return await TryGetUser(id);
         }
 
+        public async Task<TryResult<IUser>> TryFindUserByToken(string token)
+        {
+            if (token == null) throw new ArgumentNullException(nameof(token));
+
+            var result = await Users.FindOne(new[]
+                { new FirebaseQueryString(nameof(MDUser.Token), FilterMethod.EQUAL, token) });
+
+            return result != null 
+                ? TryResult<IUser>.Pass(result)
+                : TryResult<IUser>.Fail($"Unable to find user with token '{token}'");
+        }
+
         public async Task<TryResult<IAuthenticateResponse>> TryAuthenticate(IAuthenticateRequest model)
         {
             var user = await TryGetUserByEmail(model.Email);
