@@ -6,10 +6,29 @@
     color: white !important;
 }
 
+[title="Name"] {
+    color: white !important;
+}
+[title="Company"] {
+    color: white !important;
+}
+
+[title="Password"] {
+    color: white !important;
+}
+
 [title="First Name"] {
     color: white !important;
 }
 [title="Last Name"] {
+    color: white !important;
+}
+
+[title="Confirm Password"] {
+    color: white !important;
+}
+
+[title="Phone Number"] {
     color: white !important;
 }
 

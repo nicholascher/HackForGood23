@@ -7,14 +7,14 @@ import { loginPath } from '../urlConfig/pathURL';
 import validator from 'validator'
 import axios from 'axios';
 import useWindowDimensions from '../utilities/windowDimensions';
-
+import background from '../assets/bgphotos/purplegradien.jpg';
 const SignUpPage = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [firstname, setfirstname] = useState('');
     const [lastname, setlastname] = useState('');
-    const { height } = useWindowDimensions();
+    const { height,width } = useWindowDimensions();
 
     const inputEmail = (e) => {
         setEmail(e.target.value);
@@ -59,6 +59,11 @@ const SignUpPage = () => {
 
     const layoutStyle = {
         height: height,
+        width: width,
+        background: `url(${background})`,
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
 
     }
     // { background: '#FFCFBE', height: height }

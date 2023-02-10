@@ -1,32 +1,82 @@
 import React, { useState } from 'react';
-import { Row, Col, Layout, Form, Button, Checkbox, Input } from 'antd';
-import { basePath } from '../urlConfig/pathURL';
+import { Row, Col, Layout, Form, Button, Checkbox, Input, Card, Alert } from 'antd';
 import useWindowDimensions from '../utilities/windowDimensions';
 import NavSignUp from '../components/navcomponents/NavSignUp';
 import background from '../assets/bgphotos/purplegradien.jpg';
+import axios from 'axios';
 import './contactsform.css';
+import contact from '../assets/bgphotos/contact.jpg';
+import { basePath } from '../urlConfig/pathURL';
+import { useNavigate } from 'react-router-dom';
 
 const ContactsForm = () => {
     const [email, setEmail] = useState('');
-    const [findout, setinputfindout] = useState('');
-    const [rmb, setRmb] = useState(false);
+    const [firstname, setfirstname] = useState('');
+    const [phone, setphone] = useState('');
+    const [reason, setreason] = useState('');
+    const [findout, setfindout] = useState('');
+    const [company, setcompany] = useState('');
+    const [remarks, setremarks] = useState('');
     const { height, width } = useWindowDimensions();
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(email);
-    }
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     console.log(email);
+    // }
 
     const inputEmail = (e) => {
         setEmail(e.target.value);
     }
-    const inputfindout = (e) => {
-        setinputfindout(e.target.value);
+    const inputname = (e) => {
+        setfirstname(e.target.value);
     }
 
-    const inputRmb = (e) => {
-        setRmb(e);
+    const inputphone = (e) => {
+        setphone(e.target.value);
     }
+
+    const inputreason = (e) => {
+        setreason(e);
+    }
+
+    const inputremarks = (e) => {
+        setremarks(e.target.value);
+    }
+
+    const inputfindout = (e) => {
+        setfindout(e.target.value);
+    }
+
+    const inputcompany = (e) => {
+        setcompany(e.target.value);
+    }
+
+    const submitData = (email, firstname, company, phone, reason, findout, remarks) => {
+        axios.get(window.apiUrl + "/Analytic", {
+            Name: firstname,
+            Company: company,
+            Email: email,
+            Phone: phone,
+            Reason: reason,
+            FindOut: findout,
+            Remarks: remarks,
+        })
+            .then((response) => {
+                console.log("Submitted");
+                window.token = response.data.token;
+                <Alert message="Submitted Successfully" type="success" />
+                navigate(basePath);
+            })
+            .catch((err) => {
+                console.log(err);
+                <Alert message = "Error Text"
+                description = {err}
+                type = "error"
+                closable/>
+        });
+    };
+
 
     const layoutStyle = {
         height: height,
@@ -47,7 +97,7 @@ const ContactsForm = () => {
 
     const options = [
         { label: `I'm a startup looking to join`, value: 'A' },
-        { label:   `I'm an investor looking to support`, value: 'B' },
+        { label: `I'm an investor looking to support`, value: 'B' },
         { label: 'I want to work here', value: 'C' },
         { label: 'I want to subscribe to the newsletter', value: 'D' },
         { label: 'Others', value: 'E' },
@@ -61,8 +111,23 @@ const ContactsForm = () => {
                     <Row style={{ justifyContent: 'space-between' }}>
                         <Col span={24}><NavSignUp /></Col>
                     </Row>
+
                     <Row style={{ justifyContent: 'flex-end', marginTop: '150px', textAlign: 'center' }}>
                         <Col span={8}>
+                            <Card style={{ background: 'rgba(48, 28, 88, 0.7)', height: 500, color: '#FFCFBE', marginRight: '50px' }} bordered={false}
+                                cover={
+                                    <div style={{ overflow: "hidden", height: 500 }}>
+                                        <img
+                                            alt="example"
+                                            style={{ height: "100%" }}
+                                            src={contact}
+                                        />
+                                    </div>
+                                }
+                            >
+                            </Card>
+                        </Col>
+                        <Col span={6}>
                             <Form
                                 layout='vertical'
                                 labelAlign='right'
@@ -83,7 +148,7 @@ const ContactsForm = () => {
 
                             >
                                 <Form.Item
-                                    label="First Name"
+                                    label="Name"
                                     name="firstName"
                                     style={{ color: '#FFCFBE' }}
                                     rules={[
@@ -99,12 +164,12 @@ const ContactsForm = () => {
                                 >
                                     <Input
                                         maxLength={255}
-                                        onChange={(e) => inputEmail(e)}
+                                        onChange={(e) => inputname(e)}
                                     />
                                 </Form.Item>
                                 <Form.Item
-                                    label="Last Name"
-                                    name="lastname"
+                                    label="Company"
+                                    name="company"
                                     style={{ color: '#FFCFBE' }}
                                     rules={[
                                         {
@@ -119,7 +184,7 @@ const ContactsForm = () => {
                                 >
                                     <Input
                                         maxLength={255}
-                                        onChange={(e) => inputEmail(e)}
+                                        onChange={(e) => inputcompany(e)}
                                     />
                                 </Form.Item>
                                 <Form.Item
@@ -140,6 +205,22 @@ const ContactsForm = () => {
                                     <Input
                                         maxLength={255}
                                         onChange={(e) => inputEmail(e)}
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    label="Phone Number"
+                                    name="phonenumber"
+                                    style={{ color: '#FFCFBE' }}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Please input your phone number!',
+                                        },
+                                    ]}
+                                >
+                                    <Input
+                                        maxLength={255}
+                                        onChange={(e) => inputphone(e)}
                                     />
                                 </Form.Item>
                             </Form>
@@ -167,12 +248,12 @@ const ContactsForm = () => {
                                     label="How did you find out about us?"
                                     name="findout"
 
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'This section cannot be left empty',
-                                    },
-                                ]}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'This section cannot be left empty',
+                                        },
+                                    ]}
                                 >
                                     <Input
                                         maxLength={255}
@@ -185,7 +266,7 @@ const ContactsForm = () => {
                                 >
                                     <Input
                                         maxLength={255}
-                                        onChange={(e) => inputfindout(e)}
+                                        onChange={(e) => inputremarks(e)}
                                     />
                                 </Form.Item>
                                 <Form.Item
@@ -195,17 +276,17 @@ const ContactsForm = () => {
                                     wrapperCol={{
                                         span: 20,
                                     }}
-                                    
+
                                 >
-                                     
-                                    <Checkbox.Group 
+
+                                    <Checkbox.Group
                                         className='checkbox'
-                                        onChange={(e) => inputRmb(e)}
-                                        style={{ color: 'white', textAlign:'left', padding:'10px' }}
+                                        onChange={(e) => inputreason(e)}
+                                        style={{ color: 'white', textAlign: 'left', padding: '10px' }}
                                         defaultValue={["D"]}
                                         options={options}
                                     >
-                                 
+
                                     </Checkbox.Group>
                                 </Form.Item>
 
@@ -215,7 +296,7 @@ const ContactsForm = () => {
                                         span: 16,
                                     }}
                                 >
-                                    <Button type="primary" htmlType="submit" >
+                                    <Button type="primary" htmlType="submit" onClick={submitData(email, firstname, company, phone, reason, findout, remarks)}>
                                         Submit
                                     </Button>
                                 </Form.Item>

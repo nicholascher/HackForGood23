@@ -6,13 +6,13 @@ import { basePath } from '../urlConfig/pathURL';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import useWindowDimensions from '../utilities/windowDimensions';
-
+import background from '../assets/bgphotos/purplegradien.jpg';
 const LoginPage = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [rmb, setRmb] = useState(false);
-    const { height } = useWindowDimensions();
+    const { height, width } = useWindowDimensions();
 
     const cookies = new Cookies();
 
@@ -61,6 +61,11 @@ const LoginPage = () => {
 
     const layoutStyle = {
         height: height,
+        width: width,
+        background: `url(${background})`,
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
 
     }
     // { background: '#FFCFBE', height: height }
@@ -135,7 +140,7 @@ const LoginPage = () => {
                             }}
                         >
                             <Checkbox
-                            onChange={(e) => inputRmb(e)}>Remember me</Checkbox>
+                            onChange={(e) => inputRmb(e)} style={{color:'white'}}>Remember me</Checkbox>
                         </Form.Item>
 
                         <Form.Item
