@@ -14,9 +14,9 @@ Steps to run the system
 2. Run the application with WebApi as the starting project (That is where the program starts)
 3. Wait till a swagger page opens which indicates that it is working.
 4. Head to the "../Frontend" folder and install packages from the console
-	cd frontend
-	npm install
-5. Within the same folder after the installation of packages are complete, type in console
+5. 	cd frontend
+6. 	npm install
+7. Within the same folder after the installation of packages are complete, type in console
 	npm start
 
 This will start the local web development server where the site will be hosted. 
