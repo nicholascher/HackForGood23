@@ -54,7 +54,14 @@ builder.Services.AddSingleton<IConnectionString>(
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddScheme<AuthenticationSchemeOptions, FirebaseAuthHandler>(JwtBearerDefaults.AuthenticationScheme, (o) => { });
 
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:3000/");
+    });
+});
+
 
 var app = builder.Build();
 
@@ -73,12 +80,13 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseHttpsRedirection(); 
-
 app.UseCors(x => x
     .AllowAnyOrigin()
+    .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
     .AllowAnyMethod()
     .AllowAnyHeader());
+
+app.UseHttpsRedirection();
 
 // global error handler
 app.UseMiddleware<ErrorHandlerMiddleware>();

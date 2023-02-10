@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import NavSignUp from '../components/navcomponents/NavSignUp';
+import { useNavigate } from "react-router-dom";
 import { Row, Col, Layout, Form, Button, Input } from 'antd';
+import { PasswordInput } from 'antd-password-input-strength';
+import { loginPath } from '../urlConfig/pathURL';
+import validator from 'validator'
+import axios from 'axios';
 import useWindowDimensions from '../utilities/windowDimensions';
 
 const SignUpPage = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [firstname, setfirstname] = useState('');
     const [lastname, setlastname] = useState('');
     const { height } = useWindowDimensions();
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(email);
-    }
 
     const inputEmail = (e) => {
         setEmail(e.target.value);
@@ -27,10 +28,33 @@ const SignUpPage = () => {
     }
     const inputLastName = (e) => {
         setlastname(e.target.value);
-    }
+    }  
 
-    const submitData = (email, password) => {
-        console.log(email, password);
+    const validate = (value) => {
+        if (validator.isStrongPassword(value, {
+          minLength: 8, minLowercase: 1,
+          minUppercase: 1, minNumbers: 1, minSymbols: 1
+        })) {
+            return true;
+        }
+        else {
+            return false;
+        }
+
+      }
+
+    const submitData = (email, pass, firstname, lastname) => {
+        axios.post(window.apiUrl + "/Account/register", {
+            email: email,
+            password: pass,
+            firstName: firstname,
+            lastName: lastname,
+        })
+        .then(() => {
+            console.log("Registered");
+            navigate(loginPath);
+        })
+        .catch((err) => console.log(err));
     };
 
     const layoutStyle = {
@@ -47,7 +71,10 @@ const SignUpPage = () => {
 
                 <Row style={{ justifyContent: 'center', marginTop: '150px' }}>
                     <Form
+                        labelAlign='left'
+                        size='large'
                         name="basic"
+                        scrollToFirstError={true}
                         labelCol={{
                             span: 8,
                         }}
@@ -72,7 +99,10 @@ const SignUpPage = () => {
                                 },
                             ]}
                         >
-                            <Input />
+                            <Input
+                            maxLength={40}
+                            onChange={(e) => inputFirstName(e)}
+                            />
                         </Form.Item>
                         <Form.Item
                             label="Last Name"
@@ -84,44 +114,76 @@ const SignUpPage = () => {
                                 },
                             ]}
                         >
-                            <Input />
+                            <Input 
+                            maxLength={40}
+                            onChange={(e) => inputLastName(e)}
+                            />
                         </Form.Item>
                         <Form.Item
                             label="Email"
                             name="email"
                             rules={[
                                 {
+                                    type: 'email',
+                                    message: 'The input type is not valid Email',
+                                },
+                                {
                                     required: true,
                                     message: 'Please input your email!',
                                 },
                             ]}
                         >
-                            <Input />
+                            <Input 
+                            maxLength={255}
+                            onChange={(e) => inputEmail(e)}
+                            />
                         </Form.Item>
 
                         <Form.Item
+                            name="password"
                             label="Password"
-                            name="password"
+                            help="Requires minimum 8 characters, 1 lower case character, 1 upper case character, 1 number, 1 special character"
                             rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input your password!',
-                                },
+                            {
+                                required: true,
+                                message: 'Please input your password!',
+                            },
+                            {
+                                validator: (_, value) => validate(value) ? Promise.resolve() 
+                                : Promise.reject(new Error('Password needs to contain 8 characters, 1 lower case character, 1 upper case character, 1 number, 1 special character')),
+                            },
                             ]}
+                            hasFeedback
                         >
-                            <Input.Password />
+                            <PasswordInput 
+                            maxLength={255}
+                            onChange={(e) => inputpass(e)}
+                            />
                         </Form.Item>
+
                         <Form.Item
+                            name="confirm"
                             label="Confirm Password"
-                            name="password"
+                            dependencies={['password']}
+                            hasFeedback
                             rules={[
-                                {
-                                    required: true,
-                                    message: 'Please confirm your password!',
+                            {
+                                required: true,
+                                message: 'Please confirm your password!',
+                            },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                if (!value || getFieldValue('password') === value) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(new Error('The two passwords that you entered do not match!'));
                                 },
+                            }),
                             ]}
                         >
-                            <Input.Password />
+                            <Input.Password 
+                            maxLength={255}
+                            />
                         </Form.Item>
 
                         <Form.Item
@@ -130,7 +192,7 @@ const SignUpPage = () => {
                                 span: 16,
                             }}
                         >
-                            <Button type="primary" htmlType="submit" onClick={submitData(email, pass)}>
+                            <Button type="primary" htmlType="submit" onClick={() => submitData(email, pass, firstname, lastname)}>
                                 Submit
                             </Button>
                         </Form.Item>

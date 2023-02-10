@@ -13,8 +13,32 @@ import {
 } from './urlConfig/pathURL.js';
 import GetInTouch from './pages/GetInTouchPage';
 import SignUpPage from './pages/SignUpPage';
+import Cookies from 'universal-cookie';
+import axios from 'axios';
+
+window.apiUrl = "http://localhost:5233";
 
 function App() {
+    const cookies = new Cookies();
+
+    window.addEventListener("beforeunload", (ev) => {
+        var logout = localStorage.getItem("autoLogout");
+        var jwtToken = cookies.get('token');
+        if (logout == "n"){
+            axios.post(window.apiUrl + "/logout", {
+                headers: {
+                Authorization: "Bearer " + jwtToken
+                },
+                token: jwtToken,
+            },
+            
+            )
+            cookies.remove('token');
+            localStorage.removeItem('name');
+            localStorage.removeItem('autoLogout');
+        }
+    })
+
     return (
         <>
             <Router>

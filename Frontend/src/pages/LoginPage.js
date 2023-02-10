@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import NavLoginBar from '../components/navcomponents/NavLoginBar';
 import { Row, Col, Layout, Form, Button, Checkbox, Input } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { basePath } from '../urlConfig/pathURL';
+import axios from 'axios';
+import Cookies from 'universal-cookie';
 import useWindowDimensions from '../utilities/windowDimensions';
 
 const LoginPage = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
+    const [rmb, setRmb] = useState(false);
     const { height } = useWindowDimensions();
+
+    const cookies = new Cookies();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,8 +28,33 @@ const LoginPage = () => {
         setPass(e.target.value);
     }
 
+    const inputRmb = (e) => {
+        setRmb(e);
+    }
+
     const submitData = (email, password) => {
-        console.log(email, password);
+        axios.post(window.apiUrl + "/Account/authenticate", {
+            email: email,
+            password: password,
+        })
+        .then((response) => {
+            console.log("Logged in");
+            cookies.set('token', response.data.token, {path: '/'});
+
+            if (rmb)
+            {
+                localStorage.setItem("autoLogout", "n");
+            }
+            else 
+            {
+                localStorage.setItem("autoLogout", "y");
+            }
+
+            localStorage.setItem("name", response.data.firstName);
+
+            navigate(basePath);
+        })
+        .catch((err) => console.log(err));
     };
 
     const layoutStyle = {
@@ -38,6 +71,8 @@ const LoginPage = () => {
 
                 <Row style={{ justifyContent: 'center', marginTop: '150px' }}>
                     <Form
+                        labelAlign='left'
+                        size='large'
                         name="basic"
                         labelCol={{
                             span: 8,
@@ -58,12 +93,19 @@ const LoginPage = () => {
                             name="email"
                             rules={[
                                 {
+                                    type: 'email',
+                                    message: 'The input type is not valid Email',
+                                },
+                                {
                                     required: true,
                                     message: 'Please input your email!',
                                 },
                             ]}
                         >
-                            <Input />
+                            <Input 
+                            maxLength={255}
+                            onChange={(e) => inputEmail(e)}
+                            />
                         </Form.Item>
 
                         <Form.Item
@@ -76,7 +118,10 @@ const LoginPage = () => {
                                 },
                             ]}
                         >
-                            <Input.Password />
+                            <Input.Password 
+                            maxLength={255}
+                            onChange={(e) => inputpass(e)}
+                            />
                         </Form.Item>
 
                         <Form.Item
@@ -87,7 +132,8 @@ const LoginPage = () => {
                                 span: 16,
                             }}
                         >
-                            <Checkbox>Remember me</Checkbox>
+                            <Checkbox
+                            onChange={(e) => inputRmb(e)}>Remember me</Checkbox>
                         </Form.Item>
 
                         <Form.Item
@@ -96,7 +142,7 @@ const LoginPage = () => {
                                 span: 16,
                             }}
                         >
-                            <Button type="primary" htmlType="submit" onClick={submitData(email, pass)}>
+                            <Button type="primary" htmlType="submit" onClick={() => submitData(email, pass)}>
                                 Submit
                             </Button>
                         </Form.Item>
