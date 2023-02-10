@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TbAlignRight } from 'react-icons/tb';
+import { CgProfile } from 'react-icons/cg';
 import { useNavigate } from "react-router-dom";
 import { NContainer, Navigation, NMenu, NItems, Hamburger, NLinks } from './NContainer';
 import { Logo } from './Logo';
@@ -12,6 +13,7 @@ import { Link } from 'react-scroll';
 
 const NavBar = ({ toggle }) => {
     const navigate = useNavigate();
+    const [profile, setProfile] = useState(false);
     const [matches, setMatches] = useState(
         window.matchMedia("(min-width: 768px)").matches
     )
@@ -20,11 +22,17 @@ const NavBar = ({ toggle }) => {
         window
             .matchMedia("(min-width: 768px)")
             .addEventListener('change', e => setMatches(e.matches));
+
+        setProfile(window.token != null);
     }, []);
 
     const navigateToSignIn = (e) => {
         navigate(loginPath);
     };
+
+    const navigateToProfile = (e) => {
+        navigate();
+    }
 
     const navigateToContact = (e) => {
         navigate(getintouch);
@@ -83,7 +91,9 @@ const NavBar = ({ toggle }) => {
                             </NLinks>
                         </NItems>
                     </NMenu>
-                    {matches && (<Button type="primary" style={buttonStyle} onClick={navigateToSignIn}>
+                    {profile
+                    ? (<Button type="primary" style={buttonStyle} onClick={navigateToProfile}><CgProfile size={24}/></Button>) 
+                    : matches && (<Button type="primary" style={buttonStyle} onClick={navigateToSignIn}>
                         Sign In
                     </Button>)}
                 </NContainer>

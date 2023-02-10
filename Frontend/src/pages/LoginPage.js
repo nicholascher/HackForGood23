@@ -39,7 +39,9 @@ const LoginPage = () => {
         })
         .then((response) => {
             console.log("Logged in");
+            window.token = response.data.token;
             cookies.set('token', response.data.token, {path: '/'});
+            cookies.set('userId', response.data.id, {path: '/'});
 
             if (rmb)
             {

@@ -51,6 +51,20 @@ namespace WebApi.Controllers
         }
 
         [Authorize(AccessLevel.ADMIN)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [HttpPost("register/organiser")]
+        public async Task<IActionResult> RegisterOrganiser(RegisterRequest model)
+        {
+            var result = await _accountService.TryRegister(AccessLevel.ORGANISER, model);
+            if (result.Failure)
+            {
+                return BadRequest(result.ErrorMessage);
+            }
+
+            return Ok(new { message = "Registration successful" });
+        }
+
+        [Authorize(AccessLevel.ADMIN)]
         [ProducesResponseType(typeof(Collection<UserResponse>), StatusCodes.Status200OK)]
         [HttpGet]
         public async Task<IActionResult> GetAll()

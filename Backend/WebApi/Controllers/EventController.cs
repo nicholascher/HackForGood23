@@ -12,10 +12,20 @@ namespace WebApi.Controllers;
 public class EventController : ControllerBase
 {
     private readonly IEventService _eventService;
+    private readonly IAccountService _accountService;
 
-    public EventController(IEventService eventService)
+    public EventController(IEventService eventService, IAccountService accountService)
     {
         _eventService = eventService ?? throw new ArgumentNullException(nameof(eventService));
+        _accountService = accountService ?? throw new ArgumentNullException(nameof(accountService));
+    }
+
+    [Authorize(AccessLevel.ORGANISER, AccessLevel.ADMIN)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [HttpGet("privilege")]
+    public async Task<IActionResult> GetEventCreationPrivilege()
+    {
+        return Ok("Allowed");
     }
 
     [Authorize(AccessLevel.USER, AccessLevel.ORGANISER, AccessLevel.ADMIN)]
@@ -42,9 +52,9 @@ public class EventController : ControllerBase
         return Ok(new EventResponse(eventResult.Value));
     }
 
-    [Authorize(AccessLevel.ORGANISER)]
+    [Authorize(AccessLevel.ORGANISER, AccessLevel.ADMIN)]
     [ProducesResponseType(typeof(EventResponse), StatusCodes.Status200OK)]
-    [HttpGet("create")]
+    [HttpPost("create")]
     public async Task<IActionResult> CreateEvent([FromBody]EventRequest request)
     {
         var result = await _eventService.TryCreateEvent(request);
@@ -57,9 +67,9 @@ public class EventController : ControllerBase
         return Ok(new EventResponse(result.Value));
     }
 
-    [Authorize(AccessLevel.ORGANISER)]
+    [Authorize(AccessLevel.ORGANISER, AccessLevel.ADMIN)]
     [ProducesResponseType(typeof(EventResponse), StatusCodes.Status200OK)]
-    [HttpGet("update")]
+    [HttpPut("update")]
     public async Task<IActionResult> UpdateEvent(EventRequest input)
     {
         var result = await _eventService.TryUpdateEvent(input.UserId, input);
@@ -74,7 +84,7 @@ public class EventController : ControllerBase
 
     [Authorize(AccessLevel.ADMIN)]
     [ProducesResponseType(typeof(EventResponse), StatusCodes.Status200OK)]
-    [HttpGet("status")]
+    [HttpPut("status")]
     public async Task<IActionResult> UpdateEventStatus(EventStatusRequest request)
     {
         var result = await _eventService.TryUpdateEventStatus(request.Id, request.Status);
@@ -89,7 +99,7 @@ public class EventController : ControllerBase
 
     [Authorize(AccessLevel.ORGANISER, AccessLevel.ADMIN)]
     [ProducesResponseType(typeof(EventResponse), StatusCodes.Status200OK)]
-    [HttpGet("delete")]
+    [HttpDelete("delete")]
     public async Task<IActionResult> UpdateEvent(string id)
     {
         var result = await _eventService.TryDeleteEvent(id);
