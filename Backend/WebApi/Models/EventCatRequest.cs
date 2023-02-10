@@ -1,15 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Interfaces.Event;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace WebApi.Models;
 
 public class EventCatRequest
 {
+#pragma warning disable CS8618
     public EventCatRequest() { }
+#pragma warning restore CS8618
 
     [Required]
-    [JsonConverter(typeof(StringEnumConverter))]
-    public EventCategory Category { get; set; }
+    public int Category { get; set; }
 }

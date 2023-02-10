@@ -1,6 +1,7 @@
 ﻿using AnalyticManager.Models;
 using Common;
 using Common.Firebase;
+using EventManager.Models;
 using Interfaces.Analytic;
 using Interfaces.FireBase;
 
@@ -13,6 +14,8 @@ public class AnalyticService : BaseService, IAnalyticService
     }
 
     private FirebaseService<MDGetInTouch> InTouch => GetConnection<MDGetInTouch>(FirebaseCollections.TOUCH_COLLECTION);
+    private FirebaseService<MDUserAnalytic> UserAnalytic => GetConnection<MDUserAnalytic>(FirebaseCollections.USER_ANALYTIC_COLLECTION);
+    private FirebaseService<MDWebAnalytic> WebAnalytic => GetConnection<MDWebAnalytic>(FirebaseCollections.WEB_COLLECTION);
 
     public Task<TryResult<IUserAnalytics>> TryGetUserAnalytics(string id)
     {

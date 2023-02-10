@@ -23,7 +23,7 @@ public class MDGetInTouch :IGetInTouch
         FindOut = input.FindOut;
         Remarks = input.Remarks;
     }
-    [FirestoreProperty]
+    [FirestoreDocumentId]
     public string Id { get; set; }
     [FirestoreProperty]
     public string Name { get; set; }

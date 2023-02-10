@@ -17,23 +17,23 @@ const MoreEventsPage = () => {
 
     const categories = [
         {
-          code: 'NONE',
+          code: -10,
           name: 'NONE',
         },
         {
-          code: 'DEVELOPMENT',
+          code: 0,
           name: 'DEVELOPMENT',
         },
         {
-          code: 'ARTIFICIAL_INTELLIGENCE',
+          code: 10,
           name: 'ARTIFICIAL INTELLIGENCE',
         },
         {
-          code: 'WEB_BUILDING',
+          code: 20,
           name: 'WEB BUILDING',
         },
         {
-          code: 'MANUFACTURING',
+          code: 30,
           name: 'MANUFACTURING',
         },
     ]
@@ -107,13 +107,17 @@ const MoreEventsPage = () => {
     }
 
     const chooseCategory = (cat) => {
+        var curCat = cat[0];
+        var str = curCat.toString();
+        console.log(str);
         var jwtToken = window.token;
         axios.get(window.apiUrl + "/Event/category", 
         {
-            ategory: cat[0],
             headers: {
-            Authorization: "Bearer " + jwtToken
+            Authorization: "Bearer " + jwtToken,
+            
             },
+            category: 0,
         })
         .then((response) => {
             setEvents(response.data.values);
@@ -154,11 +158,11 @@ const MoreEventsPage = () => {
                             </Typography.Title>
                         </Col>
                     </Row>
-                    {/*<Row>
+                    <Row>
                         <Cascader fieldNames={{ label: 'name', value: 'code'}} options={categories} onChange={(cat) => chooseCategory(cat)} placeholder={"NONE"}>
 
                         </Cascader>
-    </Row>*/}
+                    </Row>
                     <Row gutter={16} style={{ marginTop: '50px', margin: '50px', justifyContent: 'center' }}>
                         {availableEvents.length > 0 && currentEvents.length > 0
                         ? currentEvents.map((data, num) => {
