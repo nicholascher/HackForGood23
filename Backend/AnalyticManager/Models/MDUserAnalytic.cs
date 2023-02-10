@@ -2,7 +2,7 @@
 using Interfaces.Analytic;
 using Interfaces.Event;
 
-namespace EventManager.Models;
+namespace AnalyticManager.Models;
 
 [FirestoreData]
 public class MDUserAnalytic : IUserAnalytics

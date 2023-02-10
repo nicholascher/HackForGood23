@@ -1,7 +1,6 @@
 ﻿using AnalyticManager.Models;
 using Common;
 using Common.Firebase;
-using EventManager.Models;
 using Interfaces.Analytic;
 using Interfaces.FireBase;
 

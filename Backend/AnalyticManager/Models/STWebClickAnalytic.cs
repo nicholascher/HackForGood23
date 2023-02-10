@@ -1,6 +1,6 @@
 ﻿using Interfaces.Analytic;
 
-namespace EventManager.Models;
+namespace AnalyticManager.Models;
 
 public class STWebClickAnalytic : IWebClickAnalytics
 {
