@@ -47,7 +47,7 @@ const WhoWeAre = () => {
                                 <Col span={16}>
                                     <Card bordered={false} style={{ background: 'rgba(255, 255, 255, 0.0)', }}>
                                         <Typography.Title level={1} style={{ fontsize: '90px', fontWeight: 'bold', margin: 50, fontFamily: 'Playfair Display', color: '#FFCFBE' }}>
-                                            UNICORN FOR GOOD ALLIANCE
+                                            UNICORNS FOR GOOD ALLIANCE
                                         </Typography.Title>
                                         <Typography.Title level={2} style={{ margin: 10, fontFamily: 'Playfair Display', color: 'white' }}>
                                             A platform uniting the world's best leaders, technologists, and changemakers to create transformative impact through technology

@@ -36,7 +36,7 @@ const NavSignUp = () => {
             <Row style={{height:'65px', justifyContent:'space-between', position:'fixed', width:'100%', background: '#301C58'}}>
                 <Col span={5}>
                     <Button type="text" style={buttonStyle} onClick={navigateToHome} >
-                        UNICORN FOR GOOD
+                        UNICORNS FOR GOOD
                     </Button>
                 </Col>
                 <Col span={3}>

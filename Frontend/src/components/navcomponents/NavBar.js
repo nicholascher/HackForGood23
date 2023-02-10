@@ -6,7 +6,7 @@ import { NContainer, Navigation, NMenu, NItems, Hamburger, NLinks } from './NCon
 import { Logo } from './Logo';
 import { Button } from 'antd';
 import {
-    getintouch,
+    // getintouch,
     loginPath,
 } from '../../urlConfig/pathURL.js';
 import { Link } from 'react-scroll';
@@ -34,9 +34,9 @@ const NavBar = ({ toggle }) => {
         navigate();
     }
 
-    const navigateToContact = (e) => {
-        navigate(getintouch);
-    };
+    // const navigateToContact = (e) => {
+    //     navigate(getintouch);
+    // };
 
     const buttonStyle = {
         textAlign: 'center',
