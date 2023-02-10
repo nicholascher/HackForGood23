@@ -51,6 +51,20 @@ namespace WebApi.Controllers
         }
 
         [Authorize(AccessLevel.ADMIN)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [HttpPost("register/organiser")]
+        public async Task<IActionResult> RegisterOrganiser(RegisterRequest model)
+        {
+            var result = await _accountService.TryRegister(AccessLevel.ORGANISER, model);
+            if (result.Failure)
+            {
+                return BadRequest(result.ErrorMessage);
+            }
+
+            return Ok(new { message = "Registration successful" });
+        }
+
+        [Authorize(AccessLevel.ADMIN)]
         [ProducesResponseType(typeof(Collection<UserResponse>), StatusCodes.Status200OK)]
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -59,7 +73,7 @@ namespace WebApi.Controllers
             return Ok(new Collection<UserResponse>(users.Select(x => new UserResponse(x))));
         }
 
-        [Authorize(AccessLevel.USER)]
+        [Authorize(AccessLevel.USER, AccessLevel.ORGANISER)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(string id)
@@ -74,7 +88,7 @@ namespace WebApi.Controllers
             return Ok(new UserResponse(user.Value ?? throw new InvalidOperationException("Should not be null")));
         }
 
-        [Authorize(AccessLevel.USER)]
+        [Authorize(AccessLevel.USER, AccessLevel.ORGANISER)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
         [HttpGet("{token}")]
         public async Task<IActionResult> GetUserByToken(string token)
@@ -89,7 +103,7 @@ namespace WebApi.Controllers
             return Ok(new UserResponse(user.Value ?? throw new InvalidOperationException("Should not be null")));
         }
 
-        [Authorize(AccessLevel.USER)]
+        [Authorize(AccessLevel.USER, AccessLevel.ORGANISER)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
         [HttpGet("logout")]
         public async Task<IActionResult> Logout(string token)

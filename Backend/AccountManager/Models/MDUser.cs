@@ -25,6 +25,7 @@ public class MDUser : IUser
         CreatedAt = user.CreatedAt;
         UpdatedAt = user.UpdatedAt;
         IsEmailConfirmed = user.IsEmailConfirmed;
+        Events = user.Events;
     }
 
     private MDUser(AccessLevel level, IRegisterRequest request, DateTime createdAt, string passwordHash)
@@ -37,6 +38,7 @@ public class MDUser : IUser
         CreatedAt = createdAt;
         UpdatedAt = createdAt;
         PasswordHash = passwordHash;
+        Events = Array.Empty<string>();
     }
 
     [FirestoreDocumentId]
@@ -53,6 +55,8 @@ public class MDUser : IUser
     public string PasswordHash { get; set; }
     [FirestoreProperty]
     public string? Token { get; set; }
+    [FirestoreProperty]
+    public IEnumerable<string> Events { get; }
     [FirestoreProperty]
     public DateTime CreatedAt { get; set; }
     [FirestoreProperty]

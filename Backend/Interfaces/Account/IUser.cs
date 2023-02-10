@@ -4,7 +4,7 @@
     {
         GUEST = 0,
         USER = 10,
-        COMPANY = 20,
+        ORGANISER = 20,
         ADMIN = 99,
     }
 
@@ -17,6 +17,7 @@
         public string Email { get; }
         public string PasswordHash { get; }
         public string? Token { get; }
+        public IEnumerable<string> Events { get; }
         public DateTime CreatedAt { get; }
         public DateTime UpdatedAt { get; }
         public bool IsEmailConfirmed { get; }

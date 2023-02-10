@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout, Typography, Card, Row, Col, Button } from 'antd';
 import blueglasscube from '../assets/bgphotos/blueglasscube.jpg';
 import { useNavigate } from 'react-router-dom';
-import { moreevents } from '../urlConfig/pathURL';
+import { moreevents, loginPath } from '../urlConfig/pathURL';
 import techforgood from '../assets/bgphotos/techforgood.jpg';
 import developers from '../assets/bgphotos/developers.png';
 
@@ -19,7 +19,12 @@ const EventsPage = () => {
     const navigate = useNavigate();
 
     const navigateToMoreEvents = (e) => {
-        navigate(moreevents);
+        if (window.token != null) {
+            navigate(moreevents);
+        }
+        else {
+            navigate(loginPath);
+        }
     };
     return (
         <>

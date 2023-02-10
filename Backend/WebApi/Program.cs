@@ -1,13 +1,17 @@
 using AccountManager;
+using AnalyticManager;
 using Common;
 using Common.Firebase;
+using EventManager;
 using FirebaseAdmin;
 using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
 using Google.Cloud.Firestore.V1;
 using Interfaces.Account;
+using Interfaces.Analytic;
 using Interfaces.Authentication;
+using Interfaces.Event;
 using Interfaces.FireBase;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -27,6 +31,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 builder.Services.AddScoped<IJwtUtils, JwtUtils>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IAnalyticService, AnalyticService>();
 
 builder.Services.AddSingleton(LoggerFactory.Create(loggingBuilder =>
 {

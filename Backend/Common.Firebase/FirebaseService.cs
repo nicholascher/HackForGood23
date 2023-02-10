@@ -174,6 +174,11 @@ public class FirebaseService<T>
             return Filtering(query.Method, query.Property, query.Value);
         }
 
+        public Query Visit(FirebaseQueryMultiple query)
+        {
+            return _collection.WhereIn(query.Property, query.Values);
+        }
+
         private Query Filtering(FilterMethod method, FieldPath property, object value)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
@@ -215,6 +220,11 @@ public class FirebaseService<T>
         public Query Visit(FirebaseQueryDatetime query)
         {
             return Filtering(query.Method, query.Property, query.Value);
+        }
+
+        public Query Visit(FirebaseQueryMultiple query)
+        {
+            return _collection.WhereIn(query.Property, query.Values);
         }
 
         private Query Filtering(FilterMethod method, FieldPath property, object value)

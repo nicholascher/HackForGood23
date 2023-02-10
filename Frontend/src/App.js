@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
@@ -15,35 +15,24 @@ import {
 } from './urlConfig/pathURL.js';
 import GetInTouch from './pages/GetInTouchPage';
 import SignUpPage from './pages/SignUpPage';
-import Cookies from 'universal-cookie';
-import axios from 'axios';
 import EventsPage from './pages/EventsPage';
 import MoreEventsPage from './pages/MoreEventsPage';
 import ContactsForm from './pages/ContactsForm';
+import Cookies from 'universal-cookie';
+
 
 window.apiUrl = "http://localhost:5233";
 
 function App() {
     const cookies = new Cookies();
 
-    window.addEventListener("beforeunload", (ev) => {
-        var logout = localStorage.getItem("autoLogout");
-        var jwtToken = cookies.get('token');
-        if (logout === "n"){
-            axios.post(window.apiUrl + "/logout", {
-                headers: {
-                Authorization: "Bearer " + jwtToken
-                },
-                token: jwtToken,
-            },
-            
-            )
-            cookies.remove('token');
-            localStorage.removeItem('name');
-            localStorage.removeItem('autoLogout');
-        }
-    })
-
+    useEffect(() => {
+        var token = cookies.get('token');
+            if (token != null) {
+                window.token = token;
+                window.userId = cookies.get('userId');
+            }
+    }, []);
     return (
         <>
             <Router>
