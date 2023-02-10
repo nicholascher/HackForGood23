@@ -53,18 +53,17 @@ const ContactsForm = () => {
     }
 
     const submitData = (email, firstname, company, phone, reason, findout, remarks) => {
-        axios.get(window.apiUrl + "/Analytic", {
+        axios.post(window.apiUrl + "/Analytic", {
             Name: firstname,
             Company: company,
             Email: email,
             Phone: phone,
-            Reason: reason,
+            Reason: reason[0],
             FindOut: findout,
             Remarks: remarks,
         })
             .then((response) => {
                 console.log("Submitted");
-                window.token = response.data.token;
                 <Alert message="Submitted Successfully" type="success" />
                 navigate(basePath);
             })
@@ -296,7 +295,7 @@ const ContactsForm = () => {
                                         span: 16,
                                     }}
                                 >
-                                    <Button type="primary" htmlType="submit" onClick={submitData(email, firstname, company, phone, reason, findout, remarks)}>
+                                    <Button type="primary" htmlType="submit" onClick={() => submitData(email, firstname, company, phone, reason, findout, remarks)}>
                                         Submit
                                     </Button>
                                 </Form.Item>

@@ -18,10 +18,10 @@ public class AnalyticController : ControllerBase
         _analyticService = analyticService ?? throw new ArgumentNullException(nameof(analyticService));
     }
 
-    [Authorize(AccessLevel.USER, AccessLevel.ORGANISER, AccessLevel.ADMIN)]
-    [ProducesResponseType(typeof(Collection<EventResponse>), StatusCodes.Status200OK)]
-    [HttpGet]
-    public async Task<IActionResult> CreateInTouchForm(InTouchRequest request)
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [HttpPost()]
+    public async Task<IActionResult> CreateInTouchForm([FromBody]InTouchRequest request)
     {
         var inTouch = await _analyticService.CreateGetInTouch(request);
 
