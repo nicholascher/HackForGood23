@@ -59,7 +59,7 @@ namespace WebApi.Controllers
             return Ok(new Collection<UserResponse>(users.Select(x => new UserResponse(x))));
         }
 
-        [Authorize(AccessLevel.USER)]
+        [Authorize(AccessLevel.USER, AccessLevel.ORGANISER)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(string id)
@@ -74,7 +74,7 @@ namespace WebApi.Controllers
             return Ok(new UserResponse(user.Value ?? throw new InvalidOperationException("Should not be null")));
         }
 
-        [Authorize(AccessLevel.USER)]
+        [Authorize(AccessLevel.USER, AccessLevel.ORGANISER)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
         [HttpGet("{token}")]
         public async Task<IActionResult> GetUserByToken(string token)
@@ -89,7 +89,7 @@ namespace WebApi.Controllers
             return Ok(new UserResponse(user.Value ?? throw new InvalidOperationException("Should not be null")));
         }
 
-        [Authorize(AccessLevel.USER)]
+        [Authorize(AccessLevel.USER, AccessLevel.ORGANISER)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
         [HttpGet("logout")]
         public async Task<IActionResult> Logout(string token)
