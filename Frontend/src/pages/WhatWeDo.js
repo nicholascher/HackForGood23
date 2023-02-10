@@ -5,7 +5,7 @@ const WhatWeDo = () => {
     return (
         <>
             <div id="whatwedo">
-                <Layout style={{ height: '700px', marginTop: '50px', background:'#301C58'}}>
+                <Layout style={{ height: '700px', background:'#301C58'}}>
                     <Row style={{ justifyContent: 'center', marginTop: '50px'}}>
                         <Col >
                             <Typography.Title level={1} style={{ margin: 10, fontFamily: 'Playfair Display', color: '#FFCFBE' }}>
