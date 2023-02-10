@@ -158,11 +158,11 @@ const MoreEventsPage = () => {
                             </Typography.Title>
                         </Col>
                     </Row>
-                    <Row>
+                    {/*<Row>
                         <Cascader fieldNames={{ label: 'name', value: 'code'}} options={categories} onChange={(cat) => chooseCategory(cat)} placeholder={"NONE"}>
 
                         </Cascader>
-                    </Row>
+                    </Row>*/}
                     <Row gutter={16} style={{ marginTop: '50px', margin: '50px', justifyContent: 'center' }}>
                         {availableEvents.length > 0 && currentEvents.length > 0
                         ? currentEvents.map((data, num) => {
