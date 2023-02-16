@@ -50,7 +50,7 @@ const WhoWeAre = () => {
                                             UNICORNS FOR GOOD ALLIANCE
                                         </Typography.Title>
                                         <Typography.Title level={2} style={{ margin: 10, fontFamily: 'Playfair Display', color: 'white' }}>
-                                            A platform uniting the world's best leaders, technologists, and changemakers to create transformative impact through technology
+                                            A platform uniting the world's best leaders, technologists, and changemakers to create transformative impact through social innovation and technology
                                         </Typography.Title>
                                         <Button type="primary" size={'large'} style={{ background: '#FFCFBE', margin: 50, fontFamily: 'Playfair Display', color: 'black', fontWeight:'bolder' }}>
                                             < Link to='getintouch' spy={true} smooth={true} offset={-100} duration={500} >  GET IN TOUCH</Link>
@@ -69,7 +69,7 @@ const WhoWeAre = () => {
                                         UNICORN FOR GOOD ALLIANCE
                                     </Typography.Title>
                                     <Typography.Title level={2} style={{ margin: 10, fontFamily: 'Playfair Display', color: 'white' }}>
-                                        A platform uniting the world's best leaders, technologists, and changemakers to create transformative impact through technology
+                                        A platform uniting the world's best leaders, technologists, and changemakers to create transformative impact through social innovation and technology
                                     </Typography.Title>
                                     <Button type="primary" size={'large'} style={{ background: '#FFCFBE', margin: 50, fontFamily: 'Playfair Display', color: 'black', fontWeight:'bolder' }}>
                                         GET IN TOUCH

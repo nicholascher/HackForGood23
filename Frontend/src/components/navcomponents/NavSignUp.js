@@ -18,7 +18,7 @@ const NavSignUp = () => {
     };
     const buttonStyle = {
         textAlign: 'center',
-        fontFamily: 'Playfair Display',
+        fontFamily: 'Lexend Deca',
         fontSize: '16px',
         color: 'white',
         // background: 'white',

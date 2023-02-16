@@ -9,6 +9,7 @@ import {
     // getintouch,
     loginPath,
 } from '../../urlConfig/pathURL.js';
+import unicornlogo from '../../assets/bgphotos/unicornlogo.jpg';
 import { Link } from 'react-scroll';
 
 const NavBar = ({ toggle }) => {
@@ -40,7 +41,7 @@ const NavBar = ({ toggle }) => {
 
     const buttonStyle = {
         textAlign: 'center',
-        fontFamily: 'Playfair Display',
+        fontFamily: 'Lexend Deca',
         fontSize: '16px',
         color: '#301C58',
         background: 'white',
@@ -50,15 +51,18 @@ const NavBar = ({ toggle }) => {
 
     const navStyle = {
         color : 'white',
-        fontFamily: 'Playfair Display',
+        fontFamily: 'Lexend Deca',
         fontSize: '1rem',
     }
+
+    // font-family: 'Lexend Deca', sans-serif;
     return (
         <>
             <Navigation>
                 <NContainer>
                     <Logo >
                         <Link style={navStyle} to="home" spy={true} smooth={true} offset={-100} duration={500} >UNICORNS FOR GOOD</Link> 
+                        {/* <img alt="nus" src={unicornlogo} width="150" height="90" /> */}
                     </Logo>
                     <Hamburger onClick={toggle}>
                         <TbAlignRight />
