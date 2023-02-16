@@ -21,7 +21,7 @@ import ContactsForm from './pages/ContactsForm';
 import Cookies from 'universal-cookie';
 
 
-window.apiUrl = "http://localhost:5233";
+window.apiUrl = "https://backend-image-e3plorozba-as.a.run.app";
 
 function App() {
     const cookies = new Cookies();

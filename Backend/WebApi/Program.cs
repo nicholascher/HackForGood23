@@ -34,21 +34,24 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IAnalyticService, AnalyticService>();
 
-builder.Services.AddSingleton(LoggerFactory.Create(loggingBuilder =>
+if (builder.Environment.IsDevelopment())
 {
-    loggingBuilder.AddConsole()
-        .AddDebug()
-        .AddEventLog()
-        .SetMinimumLevel(LogLevel.Debug);
-}));
+    builder.Services.AddSingleton(LoggerFactory.Create(loggingBuilder =>
+    {
+        loggingBuilder.AddConsole()
+            .AddDebug()
+            .AddEventLog()
+            .SetMinimumLevel(LogLevel.Debug);
+    }));
+}
 
 // ReSharper disable once StringLiteralTypo
-var credentialPath = Directory.GetCurrentDirectory() + "\\firebaseConfig.json";
+var credentialPath = Directory.GetCurrentDirectory() + "/firebaseConfig.json";
 Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", credentialPath);
 
 FirebaseApp.Create(new AppOptions()
 {
-    Credential = GoogleCredential.FromFile(Directory.GetCurrentDirectory() + "\\firebaseConfig.json"),
+    Credential = GoogleCredential.FromFile(Directory.GetCurrentDirectory() + "/firebaseConfig.json"),
 });
 
 builder.Services.AddSingleton<IConnectionString>(
@@ -64,7 +67,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:3000/");
+        policy.WithOrigins("perfect-purpose-378007.as.r.appspot.com");
     });
 });
 

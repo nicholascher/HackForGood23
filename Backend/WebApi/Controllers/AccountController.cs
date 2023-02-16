@@ -75,7 +75,7 @@ namespace WebApi.Controllers
 
         [Authorize(AccessLevel.USER, AccessLevel.ORGANISER)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
-        [HttpGet("{id}")]
+        [HttpGet("id/{id}")]
         public async Task<IActionResult> GetUser(string id)
         {
             var user = await _accountService.TryFindUser(id);
@@ -90,7 +90,7 @@ namespace WebApi.Controllers
 
         [Authorize(AccessLevel.USER, AccessLevel.ORGANISER)]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
-        [HttpGet("{token}")]
+        [HttpGet("token/{token}")]
         public async Task<IActionResult> GetUserByToken(string token)
         {
             var user = await _accountService.TryFindUserByToken(token);
