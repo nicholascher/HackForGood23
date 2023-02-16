@@ -52,7 +52,7 @@ const NavEventBar = () => {
 
     const buttonStyle = {
         textAlign: 'center',
-        fontFamily: 'Playfair Display',
+        fontFamily: 'Lexend Deca',
         fontSize: '16px',
         color: 'white',
         // background: 'white',
@@ -63,7 +63,7 @@ const NavEventBar = () => {
 
     const profBtn = {
         textAlign: 'center',
-        fontFamily: 'Playfair Display',
+        fontFamily: 'Lexend Deca',
         fontSize: '16px',
         color: '#301C58',
         background: 'white',

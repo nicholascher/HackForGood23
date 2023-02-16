@@ -32,7 +32,7 @@ const NavBar = ({ toggle }) => {
 
     const buttonStyle = {
         textAlign: 'center',
-        fontFamily: 'Playfair Display',
+        fontFamily: 'Lexend Deca',
         fontSize: '16px',
         color: '#301C58',
         background: 'white',
@@ -42,7 +42,7 @@ const NavBar = ({ toggle }) => {
 
     const navStyle = {
         color : 'white',
-        fontFamily: 'Playfair Display',
+        fontFamily: 'Lexend Deca',
         fontSize: '1rem',
     }
     return (

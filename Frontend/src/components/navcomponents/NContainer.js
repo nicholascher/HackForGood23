@@ -6,13 +6,13 @@ export const NContainer = styled.div`
     height: 65px; 
     display: flex; 
     width: 100%;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Lexend Deca', sans-serif;
     justify-content: space-between;
     align-items: center;
 `
 
 export const Navigation = styled.nav`
-    font-family: 'Playfair Display', serif;
+font-family: 'Lexend Deca', sans-serif;
     font-size: 1rem;
     background: #301C58;
     justify-content: center;
@@ -38,7 +38,7 @@ export const Hamburger = styled.div`
         top: 0; 
         right: 0;
         position: absolute;
-        font-family: 'Playfair Display', serif;
+        font-family: 'Lexend Deca', sans-serif;
         font-size: 1.5rem;
         cursor:pointer;
         transform: translate(-100%, 60%);
@@ -60,7 +60,7 @@ export const NMenu = styled.ul`
 
 export const NItems = styled.li`
     height: 65px;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Lexend Deca', sans-serif;
     font-size: 1rem;
     // display: flex; 
 `
